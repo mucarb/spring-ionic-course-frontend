@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { CustomerDTO } from '../../models/customer.dto';
+import { CustomerService } from '../../services/domain/customer.service';
 import { StorageService } from '../../services/storage.service';
 
 @IonicPage()
@@ -9,19 +11,23 @@ import { StorageService } from '../../services/storage.service';
 })
 export class ProfilePage {
 
-  email: string;
+  customer: CustomerDTO;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public storage: StorageService) {
+    public storage: StorageService,
+    public customerService: CustomerService) {
   }
 
   ionViewDidLoad() {
     let localUser = this.storage.getLocalUser();
 
     if (localUser && localUser.email) {
-      this.email = localUser.email;
+      this.customerService.findByEmail(localUser.email)
+        .subscribe(response => {
+          this.customer = response;
+        }, error => { });
     }
   }
 
