@@ -26,4 +26,8 @@ export class ProductPage {
       }, error => { });
   }
 
+  showDetail() {
+    this.navCtrl.push('ProductDetailPage');
+  }
+
 }
