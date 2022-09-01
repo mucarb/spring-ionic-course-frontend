@@ -9,6 +9,10 @@ export class ProductService {
   constructor(public http: HttpClient) {
   }
 
+  findById(productId: string) {
+    return this.http.get<ProductDTO>(`${API_CONFIG.baseUrl}/products/${productId}`)
+  }
+
   findByCategory(category_id: string) {
     return this.http.get<ProductDTO[]>(`${API_CONFIG.baseUrl}/products?categories=${category_id}`);
   }
