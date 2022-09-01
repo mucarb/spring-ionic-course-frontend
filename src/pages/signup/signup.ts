@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { CityDTO } from '../../models/city.dto';
 import { StateDTO } from '../../models/state.dto';
 import { CityService } from '../../services/domain/city.service';
+import { CustomerService } from '../../services/domain/customer.service';
 import { StateService } from '../../services/domain/state.service';
 
 @IonicPage()
@@ -22,7 +23,9 @@ export class SignupPage {
     public navParams: NavParams,
     public formBuilder: FormBuilder,
     public cityService: CityService,
-    public stateService: StateService) {
+    public stateService: StateService,
+    public customerService: CustomerService,
+    public alertCtrl: AlertController) {
     this.formGroup = formBuilder.group({
       name: ['Rodrigo Oliveira', [Validators.required, Validators.minLength(5), Validators.maxLength(120)]],
       email: ['rodrigo@gmail.com', [Validators.required, Validators.email]],
@@ -61,6 +64,27 @@ export class SignupPage {
   }
 
   signupUser() {
+    this.customerService.insert(this.formGroup.value)
+      .subscribe(response => {
+        this.showInsertOk();
+      }, error => { });
+  }
+
+  showInsertOk() {
+    let alert = this.alertCtrl.create({
+      title: 'Feito!',
+      message: 'Seu cadastro foi efetuado',
+      enableBackdropDismiss: false,
+      buttons: [
+        {
+          text: 'Ok',
+          handler: () => {
+            this.navCtrl.pop();
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
 }
