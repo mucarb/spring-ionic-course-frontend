@@ -29,4 +29,8 @@ export class CategoryPage {
       }, (error) => { });
   }
 
+  showProducts() {
+    this.navCtrl.push('ProductPage');
+  }
+
 }
