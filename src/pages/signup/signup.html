@@ -11,10 +11,14 @@
       <ion-input formControlName="name" type="text"></ion-input>
     </ion-item>
 
+    <p class="danger" *ngIf="formGroup.controls.name.dirty && formGroup.controls.name.errors">Valor inválido</p>
+
     <ion-item>
       <ion-label stacked>Email*</ion-label>
       <ion-input formControlName="email" type="text"></ion-input>
     </ion-item>
+
+    <p class="danger" *ngIf="formGroup.controls.email.dirty && formGroup.controls.email.errors">Valor inválido</p>
 
     <ion-list radio-group formControlName="type">
       <ion-list-header>
@@ -37,20 +41,30 @@
       <ion-input formControlName="cpfOrCnpj" type="text"></ion-input>
     </ion-item>
 
+    <p class="danger" *ngIf="formGroup.controls.cpfOrCnpj.dirty && formGroup.controls.cpfOrCnpj.errors">Valor inválido
+    </p>
+
     <ion-item>
       <ion-label stacked>Senha*</ion-label>
       <ion-input formControlName="password" type="password"></ion-input>
     </ion-item>
+
+    <p class="danger" *ngIf="formGroup.controls.password.dirty && formGroup.controls.password.errors">Valor inválido</p>
 
     <ion-item>
       <ion-label stacked>Logradouro*</ion-label>
       <ion-input formControlName="publicPlace" type="text"></ion-input>
     </ion-item>
 
+    <p class="danger" *ngIf="formGroup.controls.publicPlace.dirty && formGroup.controls.publicPlace.errors">Valor
+      inválido</p>
+
     <ion-item>
       <ion-label stacked>Número*</ion-label>
       <ion-input formControlName="number" type="text"></ion-input>
     </ion-item>
+
+    <p class="danger" *ngIf="formGroup.controls.number.dirty && formGroup.controls.number.errors">Valor inválido</p>
 
     <ion-item>
       <ion-label stacked>Complemento</ion-label>
@@ -67,10 +81,14 @@
       <ion-input formControlName="zipCode" type="text"></ion-input>
     </ion-item>
 
+    <p class="danger" *ngIf="formGroup.controls.zipCode.dirty && formGroup.controls.zipCode.errors">Valor inválido</p>
+
     <ion-item>
       <ion-label stacked>Telefone 1*</ion-label>
       <ion-input formControlName="phone1" type="text"></ion-input>
     </ion-item>
+
+    <p class="danger" *ngIf="formGroup.controls.phone1.dirty && formGroup.controls.phone1.errors">Valor inválido</p>
 
     <ion-item>
       <ion-label stacked>Telefone 2</ion-label>
@@ -100,6 +118,6 @@
       </ion-select>
     </ion-item>
 
-    <button ion-button block type="submit">Criar conta</button>
+    <button ion-button block type="submit" [disabled]="formGroup.invalid">Criar conta</button>
   </form>
 </ion-content>
