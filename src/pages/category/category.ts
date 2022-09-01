@@ -19,7 +19,10 @@ export class CategoryPage {
 
   categories: CategoryDTO[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public categoryService: CategoryService) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public categoryService: CategoryService) {
   }
 
   ionViewDidLoad() {
@@ -29,8 +32,8 @@ export class CategoryPage {
       }, (error) => { });
   }
 
-  showProducts() {
-    this.navCtrl.push('ProductPage');
+  showProducts(category_id: string) {
+    this.navCtrl.push('ProductPage', { categoryId: category_id });
   }
 
 }
