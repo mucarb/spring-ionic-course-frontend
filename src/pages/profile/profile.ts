@@ -26,7 +26,7 @@ export class ProfilePage {
     if (localUser && localUser.email) {
       this.customerService.findByEmail(localUser.email)
         .subscribe(response => {
-          this.customer = response;
+          this.customer = response as CustomerDTO;
         }, error => {
           if (error.status == 403) {
             this.navCtrl.setRoot('HomePage');

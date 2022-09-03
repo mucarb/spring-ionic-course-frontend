@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AddressDTO } from '../../models/address.dto';
+import { CustomerService } from '../../services/domain/customer.service';
+import { StorageService } from '../../services/storage.service';
 
 @IonicPage()
 @Component({
@@ -11,44 +13,28 @@ export class PickAddressPage {
 
   adresses: AddressDTO[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public storage: StorageService,
+    public customerService: CustomerService) {
   }
 
   ionViewDidLoad() {
-    this.adresses = [
-      {
-        id: '1',
-        publicPlace: 'Rua Belem',
-        number: '2485',
-        complement: 'Quadra 24',
-        neighborhood: 'Jardim Real',
-        zipCode: '19470000',
-        city: {
-          id: '1',
-          name: 'Presidente Epitácio',
-          state: {
-            id: '1',
-            name: 'São Paulo'
+    let localUser = this.storage.getLocalUser();
+
+    if (localUser && localUser.email) {
+      this.customerService.findByEmail(localUser.email)
+        .subscribe(response => {
+          this.adresses = response['adresses'];
+        }, error => {
+          if (error.status == 403) {
+            this.navCtrl.setRoot('HomePage');
           }
-        }
-      },
-      {
-        id: '2',
-        publicPlace: 'Rua Belem',
-        number: '2485',
-        complement: 'Quadra 24',
-        neighborhood: 'Jardim Real',
-        zipCode: '19470000',
-        city: {
-          id: '1',
-          name: 'Presidente Epitácio',
-          state: {
-            id: '1',
-            name: 'São Paulo'
-          }
-        }
-      }
-    ];
+        });
+    } else {
+      this.navCtrl.setRoot('HomePage');
+    }
   }
 
 }
