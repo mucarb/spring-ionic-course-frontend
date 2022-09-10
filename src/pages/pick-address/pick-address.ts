@@ -57,7 +57,7 @@ export class PickAddressPage {
 
   nextPage(item: AddressDTO) {
     this.purchase.deliveryAddress = { id: item.id };
-    console.log(this.purchase);
+    this.navCtrl.push('PaymentPage', { purchase: this.purchase });
   }
 
 }
