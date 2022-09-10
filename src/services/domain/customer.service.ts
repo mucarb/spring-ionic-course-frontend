@@ -9,6 +9,10 @@ export class CustomerService {
 
   constructor(public http: HttpClient, public storage: StorageService) { }
 
+  findById(id: string) {
+    return this.http.get(`${API_CONFIG.baseUrl}/customers/${id}`);
+  }
+
   findByEmail(email: string) {
     return this.http.get(`${API_CONFIG.baseUrl}/customers/email?value=${email}`);
   }

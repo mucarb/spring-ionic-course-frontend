@@ -29,7 +29,7 @@ export class PaymentPage {
 
   nextPage() {
     this.purchase.payment = this.formGroup.value;
-    console.log(this.purchase);
+    this.navCtrl.setRoot('PurchaseConfirmationPage', { purchase: this.purchase });
   }
 
 }
