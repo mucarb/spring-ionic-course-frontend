@@ -10,7 +10,9 @@ import { ProductService } from '../../services/domain/product.service';
 })
 export class ProductPage {
 
-  products: ProductDTO[];
+  products: ProductDTO[] = [];
+
+  page: number = 0;
 
   constructor(
     public navCtrl: NavController,
@@ -26,10 +28,12 @@ export class ProductPage {
   loadData() {
     let category_id = this.navParams.get('categoryId');
     let loader = this.presentLoading();
-    this.productService.findByCategory(category_id)
+    this.productService.findByCategory(category_id, this.page, 10)
       .subscribe(response => {
         loader.dismiss();
-        this.products = response['content'];
+        this.products = this.products.concat(response['content']);
+        console.log(this.page);
+        console.log(this.products);
       }, error => {
         loader.dismiss();
       });
@@ -48,9 +52,19 @@ export class ProductPage {
   }
 
   doRefresh(refresher) {
+    this.page = 0;
+    this.products = [];
     this.loadData();
     setTimeout(() => {
       refresher.complete();
+    }, 1000);
+  }
+
+  doInfinite(infiniteScroll) {
+    this.page++;
+    this.loadData();
+    setTimeout(() => {
+      infiniteScroll.complete();
     }, 1000);
   }
 
