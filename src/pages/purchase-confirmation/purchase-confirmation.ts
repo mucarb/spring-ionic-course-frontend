@@ -6,6 +6,7 @@ import { CustomerDTO } from '../../models/customer.dto';
 import { PurchaseDTO } from '../../models/purchase.dto';
 import { CartService } from '../../services/domain/cart.service';
 import { CustomerService } from '../../services/domain/customer.service';
+import { PurchaseService } from '../../services/domain/purchase.service';
 
 @IonicPage()
 @Component({
@@ -23,7 +24,8 @@ export class PurchaseConfirmationPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public cartService: CartService,
-    public customerService: CustomerService) {
+    public customerService: CustomerService,
+    public purchaseService: PurchaseService,) {
     this.purchase = this.navParams.get('purchase');
   }
 
@@ -45,6 +47,22 @@ export class PurchaseConfirmationPage {
 
   total() {
     return this.cartService.total();
+  }
+
+  back() {
+    this.navCtrl.setRoot('CartPage');
+  }
+
+  checkout() {
+    this.purchaseService.insert(this.purchase)
+      .subscribe(response => {
+        this.cartService.createOrClearCart();
+        console.log(response.headers.get('location'));
+      }, error => {
+        if (error.status == 403) {
+          this.navCtrl.setRoot('HomePage');
+        }
+      });
   }
 
 }
